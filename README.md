@@ -4,7 +4,7 @@ Welcome to our github page! You can access our research via our [Wiki page](http
 
 ## Team Members
 
-* Yağmur Ceren Dardağan
+* [Yağmur Ceren Dardağan](https://github.com/bounswe/bounswe2017group6/wiki/Ya%C4%9Fmur-Ceren-Darda%C4%9Fan)
 * [Mustafa Şişik](https://github.com/bounswe/bounswe2017group6/wiki/Mustafa-%C5%9Ei%C5%9Fik)
 * [Utku Alhan](https://github.com/bounswe/bounswe2017group6/wiki/Utku-Alhan)
 * [Muhammed Fatih Balın](https://github.com/bounswe/bounswe2017group6/wiki/Muhammed-Fatih-Bal%C4%B1n)
