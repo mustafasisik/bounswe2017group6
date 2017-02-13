@@ -12,6 +12,6 @@ Welcome to our github page! You can access our research via our [Wiki page](http
 * [Emre Eren](https://github.com/bounswe/bounswe2017group6/wiki/Emre-Eren)
 * Yusuf Hakan Kalaycı
 * [Berkay Kozan](https://github.com/bounswe/bounswe2017group6/wiki/Berkay-Kozan)
-* Yusufcan Manav (Communicator)
+* [Yusufcan Manav (Communicator)](https://github.com/bounswe/bounswe2017group6/wiki/Yusufcan-Manav)
 * [Ahmet Ozan Tatlısu](https://github.com/bounswe/bounswe2017group6/wiki/Ahmet-Ozan-Tatlisu)
 * [Alperen Yakut](https://github.com/bounswe/bounswe2017group6/wiki/Alperen-Yakut)
