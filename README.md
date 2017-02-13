@@ -1,6 +1,6 @@
 # bounswe2017group6
 
-Welcome to our github page! You can access our research via our [Wiki page](https://github.com/bounswe/bounswe2017group6/wiki/)
+Welcome to our github page! You can access our research via our [Wiki page](https://github.com/bounswe/bounswe2017group6/wiki/).
 
 ## Team Members
 
