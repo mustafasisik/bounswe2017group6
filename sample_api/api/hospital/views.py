@@ -60,6 +60,35 @@ def patient_single(request, patient_id):
             return JsonResponse({"status":"FAIL", "message":"patient does not exist"})
 
 @csrf_exempt
+def department(request):
+	print(request)
+
+@csrf_exempt
+def department_single(request, department_id):
+	if request.method == "GET":
+		print(request)
+		department = Department.objects.filter(id = int(department_id))
+		if department.exists():
+			department = department.first()
+		return JsonResponse({"name": department.name})
+	
+	elif request.method == "PUT":
+		data = json.loads(request.body.decode("utf-8"))
+		department = Department.objects.filter(id = int(department_id))
+		if department.exists():
+			department = department.first()
+		else:
+			return JsonResponse({"status":"FAIL", "message":"department does not exist"})
+		try:
+			if "name" in data:
+				department.name = data["name"]
+			department.save()
+		except:
+			return JsonResponse({"status": "FAIL", "message": "missing field"})
+		return JsonResponse({"status":"OK", "message":""})
+
+
+@csrf_exempt
 def patient(request):
     print("patient")
     if request.method == "GET":
