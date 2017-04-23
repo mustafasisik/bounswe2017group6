@@ -30,9 +30,9 @@ def patient_single(request, patient_id):
         if patient.exists():
             patient = patient.first()
         else:
-            pass
+            return JsonResponse({"status":"FAIL", "message":"patient does not exist"})
         return JsonResponse({"name":patient.name, "lastname":patient.lastname, "age":patient.age})
-        
+
     elif request.method == "PUT":
         data = json.loads(request.body.decode("utf-8"))
         patient = Patient.objects.filter(id=int(patient_id))
@@ -51,3 +51,26 @@ def patient_single(request, patient_id):
         except:
             return JsonResponse({"status":"FAIL", "message":"missing field"})
         return JsonResponse({"status":"OK", "message":""})
+    elif request.method=="DELETE":
+        patient = Patient.objects.filter(id=int(patient_id))
+        if patient.exists():
+            patient.delete()
+            return JsonResponse({"status":"OK", "message":""})
+        else:
+            return JsonResponse({"status":"FAIL", "message":"patient does not exist"})
+
+@csrf_exempt
+def patient(request):
+    print("patient")
+    if request.method == "GET":
+        pass
+    elif request.method == "POST":
+        print("post patient")
+        try:
+            data = json.loads(request.body.decode("utf-8"))
+            patient = Patient.objects.create(name=data["name"], lastname=data["lastname"], age=data["age"])
+            patient.save()
+            return JsonResponse({"status":"OK", "message":""})
+        except Exception as e:
+            print("wrong format!!!!!\n\n\n\n")
+            return JsonResponse({"status":"FAIL", "message":"wrong data format"})
