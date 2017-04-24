@@ -9,7 +9,18 @@ import json
 def doctor(request):
     if request.method == 'GET':
         return JsonResponse({"asd":"asd"})
-
+	
+    elif request.method == "POST":
+        print("post doctor")
+        try:
+            data = json.loads(request.body.decode("utf-8"))
+            doctor = Doctor.objects.create(name=data["name"], lastname=data["lastname"], age=data["age"])
+            doctor.save()
+            return JsonResponse({"status":"OK", "message":""})
+        except Exception as e:
+            print("wrong format!!!!!\n\n\n\n")
+            return JsonResponse({"status":"FAIL", "message":"wrong data format"})
+			
 @csrf_exempt
 def doctor_single(request, doctor_id):
     if request.method == "GET":
@@ -72,7 +83,18 @@ def patient_single(request, patient_id):
 @csrf_exempt
 def department(request):
 	print(request)
-
+	if request.method == "GET":
+		department=Department.objects.all()
+		dep = {}
+		dep_records=[]
+		for e in department:
+			nam=e.name
+			record={"name":nam}
+			dep_records.append(record)
+		
+		dep["departments"]=dep_records
+		return JsonResponse(dep)
+	
 @csrf_exempt
 def department_single(request, department_id):
 	if request.method == "GET":
