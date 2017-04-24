@@ -41,7 +41,7 @@ class Rendezvous(models.Model): # 16
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name="patient")
 
     def __str__(self):
-        return str(self.date) + " - " + self.doctor + " - " + self.patient
+        return str(self.date) + " - " + str(self.doctor) + " - " + str(self.patient)
 
 # department create     (post)
 # department get        (get) by_id / all
