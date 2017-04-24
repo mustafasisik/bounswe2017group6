@@ -35,6 +35,8 @@ def patient_single(request, patient_id):
 
     elif request.method == "PUT":
         data = json.loads(request.body.decode("utf-8"))
+        print(patient_id)
+        print(data)
         patient = Patient.objects.filter(id=int(patient_id))
         if patient.exists():
             patient = patient.first()
@@ -103,3 +105,31 @@ def patient(request):
         except Exception as e:
             print("wrong format!!!!!\n\n\n\n")
             return JsonResponse({"status":"FAIL", "message":"wrong data format"})
+@csrf_exempt
+def rendezvous(request): 
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body.decode("utf-8"))
+            print(data["doctor_id"]+ " "+data["patient_id"])
+            patient = Patient.objects.filter(id=int(data["patient_id"]))
+            if patient.exists():
+                patient = patient.first()
+            doctor = Doctor.objects.filter(id=int(data["doctor_id"]))
+            if doctor.exists():
+                doctor = doctor.first()
+                
+            rendezvous=Rendezvous.objects.create(doctor=doctor,patient=patient)
+            rendezvous.save()
+            return JsonResponse({"status":"OK", "message":""})
+        except Exception as e:
+            print("wrong format!!!!!\n\n\n\n")
+            return JsonResponse({"status":"FAIL", "message":"wrong data format"})
+@csrf_exempt
+def rendezvous_single(request,rendezvous_id):
+    if request.method == "GET":
+        print(request)
+        rendezvous=Rendezvous.objects.filter(id = int(rendezvous_id))
+        if rendezvous.exists():
+            rendezvous=rendezvous.first()
+        return JsonResponse({"Doctor Name":rendezvous.doctor.name + " " + rendezvous.doctor.lastname,"Patient":rendezvous.patient.name+" "+rendezvous.patient.lastname,"Time":str(rendezvous.date)})
+   

@@ -9,4 +9,7 @@ urlpatterns = [
     url(r'^patient/$', views.patient, name='patient'),
     url(r'^department/$', views.department, name = 'department'),
     url(r'^department/([0-9]+)/$', views.department_single, name = 'department_single'),
+    url(r'^rendezvous/$', views.rendezvous, name = 'rendezvous'),
+    url(r'^rendezvous/([0-9]+)/$', views.rendezvous_single, name = 'rendezvous_single'),
+    
 ]
