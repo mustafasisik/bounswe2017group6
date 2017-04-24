@@ -21,6 +21,14 @@ def doctor_single(request, doctor_id):
 
     elif request.method == "POST":
         pass
+    
+    elif request.method=="DELETE":
+        doctor = Doctor.objects.filter(id=int(doctor_id))
+        if doctor.exists():
+            doctor.delete()
+            return JsonResponse({"status":"OK", "message":""})
+        else:
+            return JsonResponse({"status":"FAIL", "message":"doctor does not exist"})
 
 @csrf_exempt
 def patient_single(request, patient_id):
@@ -89,6 +97,13 @@ def department_single(request, department_id):
 			return JsonResponse({"status": "FAIL", "message": "missing field"})
 		return JsonResponse({"status":"OK", "message":""})
 
+	elif request.method == "DELETE":
+						department = Department.objects.filter(id = int(department_id))
+						if department.exists():
+								return JsonResponse({"status":"OK", "message":""})
+						else:
+								return JsonResponse({"status":"FAIL", "message":"department does not exist"})
+														 
 
 @csrf_exempt
 def patient(request):
