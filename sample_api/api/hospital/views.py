@@ -8,7 +8,10 @@ import json
 @csrf_exempt
 def doctor(request):
     if request.method == 'GET':
-        return JsonResponse({"asd":"asd"})
+        print(Doctor.objects.filter(id=1))
+        return JsonResponse({"asdasdasd":"asd"})
+    elif request.method == "POST":
+        pass
 
 @csrf_exempt
 def doctor_single(request, doctor_id):
@@ -19,8 +22,6 @@ def doctor_single(request, doctor_id):
             doctor = doctor.first()
         return JsonResponse({"name":doctor.name, "lastname":doctor.lastname, "age":doctor.age})
 
-    elif request.method == "POST":
-        pass
     
     elif request.method=="DELETE":
         doctor = Doctor.objects.filter(id=int(doctor_id))
