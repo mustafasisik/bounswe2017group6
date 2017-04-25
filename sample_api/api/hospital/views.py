@@ -8,8 +8,14 @@ import json
 @csrf_exempt
 def doctor(request):
     if request.method == 'GET':
-        return JsonResponse({"asd":"asd"})
-    
+        doctor = Doctor.objects.all()
+
+        response = {}
+        response["doctors"] = []
+        for d in doctor:
+            response["doctors"].append({"name":d.name, "lastname": d.lastname, "age": d.age});
+        return JsonResponse(response)
+        
     elif request.method == "POST":
         print("post doctor")
         try:
