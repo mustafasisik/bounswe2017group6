@@ -8,11 +8,19 @@ import json
 @csrf_exempt
 def doctor(request):
     if request.method == 'GET':
-        print(Doctor.objects.filter(id=1))
-        return JsonResponse({"asdasdasd":"asd"})
+        return JsonResponse({"asd":"asd"})
+    
     elif request.method == "POST":
-        pass
-
+        print("post doctor")
+        try:
+            data = json.loads(request.body.decode("utf-8"))
+            doctor = Doctor.objects.create(name=data["name"], lastname=data["lastname"], age=data["age"])
+            doctor.save()
+            return JsonResponse({"status":"OK", "message":""})
+        except Exception as e:
+            print("wrong format!!!!!\n\n\n\n")
+            return JsonResponse({"status":"FAIL", "message":"wrong data format"})
+            
 @csrf_exempt
 def doctor_single(request, doctor_id):
     if request.method == "GET":
@@ -22,6 +30,8 @@ def doctor_single(request, doctor_id):
             doctor = doctor.first()
         return JsonResponse({"name":doctor.name, "lastname":doctor.lastname, "age":doctor.age})
 
+    elif request.method == "POST":
+        pass
     
     elif request.method=="DELETE":
         doctor = Doctor.objects.filter(id=int(doctor_id))
@@ -72,39 +82,50 @@ def patient_single(request, patient_id):
 
 @csrf_exempt
 def department(request):
-	print(request)
-
+    print(request)
+    if request.method == "GET":
+        department=Department.objects.all()
+        dep = {}
+        dep_records=[]
+        for e in department:
+            nam=e.name
+            record={"name":nam}
+            dep_records.append(record)
+        
+        dep["departments"]=dep_records
+        return JsonResponse(dep)
+    
 @csrf_exempt
 def department_single(request, department_id):
-	if request.method == "GET":
-		print(request)
-		department = Department.objects.filter(id = int(department_id))
-		if department.exists():
-			department = department.first()
-		return JsonResponse({"name": department.name})
-	
-	elif request.method == "PUT":
-		data = json.loads(request.body.decode("utf-8"))
-		department = Department.objects.filter(id = int(department_id))
-		if department.exists():
-			department = department.first()
-		else:
-			return JsonResponse({"status":"FAIL", "message":"department does not exist"})
-		try:
-			if "name" in data:
-				department.name = data["name"]
-			department.save()
-		except:
-			return JsonResponse({"status": "FAIL", "message": "missing field"})
-		return JsonResponse({"status":"OK", "message":""})
+    if request.method == "GET":
+        print(request)
+        department = Department.objects.filter(id = int(department_id))
+        if department.exists():
+            department = department.first()
+        return JsonResponse({"name": department.name})
+    
+    elif request.method == "PUT":
+        data = json.loads(request.body.decode("utf-8"))
+        department = Department.objects.filter(id = int(department_id))
+        if department.exists():
+            department = department.first()
+        else:
+            return JsonResponse({"status":"FAIL", "message":"department does not exist"})
+        try:
+            if "name" in data:
+                department.name = data["name"]
+            department.save()
+        except:
+            return JsonResponse({"status": "FAIL", "message": "missing field"})
+        return JsonResponse({"status":"OK", "message":""})
 
-	elif request.method == "DELETE":
-						department = Department.objects.filter(id = int(department_id))
-						if department.exists():
-								return JsonResponse({"status":"OK", "message":""})
-						else:
-								return JsonResponse({"status":"FAIL", "message":"department does not exist"})
-														 
+    elif request.method == "DELETE":
+                        department = Department.objects.filter(id = int(department_id))
+                        if department.exists():
+                                return JsonResponse({"status":"OK", "message":""})
+                        else:
+                                return JsonResponse({"status":"FAIL", "message":"department does not exist"})
+                                                         
 
 @csrf_exempt
 def patient(request):
@@ -148,4 +169,3 @@ def rendezvous_single(request,rendezvous_id):
         if rendezvous.exists():
             rendezvous=rendezvous.first()
         return JsonResponse({"Doctor Name":rendezvous.doctor.name + " " + rendezvous.doctor.lastname,"Patient":rendezvous.patient.name+" "+rendezvous.patient.lastname,"Time":str(rendezvous.date)})
-   
