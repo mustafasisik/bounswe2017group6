@@ -179,7 +179,7 @@ def rendezvous(request):
             active = "No"
             if r.is_active:
                 active = "Yes"
-            record={"Date":date, "Is Active":active}
+            record={"Doctor Name":r.doctor.name + " " + r.doctor.lastname,"Patient":r.patient.name+" "+r.patient.lastname, "Date":date, "Is Active":active}
             ren_records.append(record)
         
         ren["rendezvous"]=ren_records
