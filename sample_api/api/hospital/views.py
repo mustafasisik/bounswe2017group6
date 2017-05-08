@@ -127,7 +127,7 @@ def department_single(request, department_id):
     elif request.method == "DELETE":
         department = Department.objects.filter(id = int(department_id))
         if department.exists():
-            department.delete()
+            department.delete() 
             return JsonResponse({"status":"OK", "message":""})
         else:
             return JsonResponse({"status":"FAIL", "message":"department does not exist"})
