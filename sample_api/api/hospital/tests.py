@@ -37,3 +37,6 @@ class DepartmentTestCase(TestCase):
 		self.assertEqual(response.status_code, 200)
 		department = Department.objects.filter(id = int(1)).first()
 		self.assertEqual("tirnak burun sac", department.name)
+
+	def tearDown(self):
+		Department.objects.all().delete()
