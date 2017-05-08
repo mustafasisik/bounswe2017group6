@@ -15,7 +15,7 @@ def doctor(request):
         for d in doctor:
             response["doctors"].append({"name":d.name, "lastname": d.lastname, "age": d.age});
         return JsonResponse(response)
-        
+
     elif request.method == "POST":
         print("post doctor")
         try:
@@ -26,20 +26,38 @@ def doctor(request):
         except Exception as e:
             print("wrong format!!!!!\n\n\n\n")
             return JsonResponse({"status":"FAIL", "message":"wrong data format"})
-            
+
+
 @csrf_exempt
 def doctor_single(request, doctor_id):
     if request.method == "GET":
-        print(request)
         doctor = Doctor.objects.filter(id=int(doctor_id))
         if doctor.exists():
             doctor = doctor.first()
-        return JsonResponse({"name":doctor.name, "lastname":doctor.lastname, "age":doctor.age})
+        return JsonResponse({"name": doctor.name, "lastname": doctor.lastname,
+                             "age": doctor.age})
 
-    elif request.method == "POST":
-        pass
-    
-    elif request.method=="DELETE":
+    elif request.method == "PUT":
+        data = json.loads(request.body.decode("utf-8"))
+        doctor = Doctor.objects.filter(id=int(doctor_id))
+        if doctor.exists():
+            doctor = doctor.first()
+        else:
+            return JsonResponse({"status": "FAIL",
+                                 "message": "doctor does not exist"})
+        try:
+            if "age" in data:
+                doctor.age = data["age"]
+            if "name" in data:
+                doctor.name = data["name"]
+            if "lastname" in data:
+                doctor.lastname = data["lastname"]
+            doctor.save()
+        except Exception:
+            return JsonResponse({"status": "FAIL", "message": "missing field"})
+        return JsonResponse({"status": "OK", "message": ""})
+
+    elif request.method == "DELETE":
         doctor = Doctor.objects.filter(id=int(doctor_id))
         if doctor.exists():
             doctor.delete()
@@ -97,10 +115,10 @@ def department(request):
             nam=e.name
             record={"name":nam}
             dep_records.append(record)
-        
+
         dep["departments"]=dep_records
         return JsonResponse(dep)
-    
+
 @csrf_exempt
 def department_single(request, department_id):
     if request.method == "GET":
@@ -109,7 +127,7 @@ def department_single(request, department_id):
         if department.exists():
             department = department.first()
         return JsonResponse({"name": department.name})
-    
+
     elif request.method == "PUT":
         data = json.loads(request.body.decode("utf-8"))
         department = Department.objects.filter(id = int(department_id))
@@ -131,7 +149,7 @@ def department_single(request, department_id):
                                 return JsonResponse({"status":"OK", "message":""})
                         else:
                                 return JsonResponse({"status":"FAIL", "message":"department does not exist"})
-                                                         
+
 
 @csrf_exempt
 def patient(request):
@@ -149,7 +167,7 @@ def patient(request):
             print("wrong format!!!!!\n\n\n\n")
             return JsonResponse({"status":"FAIL", "message":"wrong data format"})
 @csrf_exempt
-def rendezvous(request): 
+def rendezvous(request):
     if request.method == "POST":
         try:
             data = json.loads(request.body.decode("utf-8"))
@@ -160,7 +178,7 @@ def rendezvous(request):
             doctor = Doctor.objects.filter(id=int(data["doctor_id"]))
             if doctor.exists():
                 doctor = doctor.first()
-                
+
             rendezvous=Rendezvous.objects.create(doctor=doctor,patient=patient)
             rendezvous.save()
             return JsonResponse({"status":"OK", "message":"rendezvous added"})
