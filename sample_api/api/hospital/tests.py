@@ -5,6 +5,8 @@ from django.test import TestCase
 from django.test.client import RequestFactory
 from .views import department_single, department
 from .models import Department
+from .views import patient_single, patient
+from .models import Patient
 from django.http import JsonResponse
 import json
 
@@ -45,7 +47,7 @@ class PatientTestCase(TestCase):
 	def setUp(self):
 		self.factory = RequestFactory()
 		Patient.objects.create(name = "Kazim", lastname= "Kazim", age=34)
-		Patient.objects.create(name = "Tahm", lastname= "Kench", age=91))
+		Patient.objects.create(name = "Tahm", lastname= "Kench", age=91)
 	
 	def test_get_method(self):
 		request = self.factory.get('/hospital/patient/')
