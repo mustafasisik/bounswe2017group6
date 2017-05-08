@@ -40,3 +40,25 @@ class DepartmentTestCase(TestCase):
 
 	def tearDown(self):
 		Department.objects.all().delete()
+
+class PatientTestCase(TestCase):
+	def setUp(self):
+		self.factory = RequestFactory()
+		Patient.objects.create(name = "Kazim", lastname= "Kazim", age=34)
+		Patient.objects.create(name = "Tahm", lastname= "Kench", age=91))
+	
+	def test_get_method(self):
+		request = self.factory.get('/hospital/patient/')
+		response = patient_single(request, 1)
+		self.assertEqual(response.status_code, 200)
+		self.assertEqual(response.content, JsonResponse({"name": "Kazim", "lastname":"Kazim", "age": 34}).content)
+	
+	def test_put_method(self):
+		request = self.factory.put('/hospital/patient/', json.dumps({"name": "Salih"}), content_type = 'application/json')
+		response = patient_single(request, 1)
+		self.assertEqual(response.status_code, 200)
+		patient = Patient.objects.filter(id = int(1)).first()
+		self.assertEqual("Salih", patient.name)
+
+	def tearDown(self):
+		Patient.objects.all().delete()
